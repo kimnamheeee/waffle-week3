@@ -6,7 +6,7 @@ interface GameButtonProps {
   variant?: 'primary' | 'ghost';
 }
 
-const Container = styled.button<{variant: 'primary' | 'ghost'}>`
+const Container = styled.button<{ variant: 'primary' | 'ghost' }>`
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -20,6 +20,14 @@ const Container = styled.button<{variant: 'primary' | 'ghost'}>`
     min-height: 40px;
 `;
 
-export default function GameButton({ children, onClick, variant = 'primary' }: GameButtonProps) {
-  return <Container onClick={onClick} variant={variant}>{children}</Container>;
+export default function GameButton({
+  children,
+  onClick,
+  variant = 'primary',
+}: GameButtonProps) {
+  return (
+    <Container onClick={onClick} variant={variant}>
+      {children}
+    </Container>
+  );
 }

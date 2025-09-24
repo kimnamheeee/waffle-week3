@@ -1,6 +1,6 @@
+import GamePage from './pages/gamePage';
 import { GameProvider } from './store/gameStore';
 import GlobalStyle from './styles/GlobalStyle';
-import GamePage from './pages/gamePage';
 
 const App = () => {
   return (

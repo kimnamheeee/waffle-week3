@@ -40,22 +40,28 @@ function useGame() {
     if (board.some((row) => row.some((cell) => cell === null))) {
       return false;
     }
-    const horizontal = board.some((row) => row.some((cell, index) => cell === row[index + 1]));
-    const vertical = board.some((row) => row.some((cell, index) => cell === board[index + 1][index]));
+    const horizontal = board.some((row) =>
+      row.some((cell, index) => cell === row[index + 1])
+    );
+    const vertical = board.some((row) =>
+      row.some((cell, index) => cell === board[index + 1][index])
+    );
     if (horizontal || vertical) {
       return false;
-    }    
+    }
     return true;
   };
 
-
-  const addScore = (scoreToAdd: number) => {
-    const newScore = score + scoreToAdd;
-    setScore(newScore);
-    if (newScore > highScore) {
-      setHighScore(newScore);
-    }
-  };
+  const addScore = useCallback(
+    (scoreToAdd: number) => {
+      const newScore = score + scoreToAdd;
+      setScore(newScore);
+      if (newScore > highScore) {
+        setHighScore(newScore);
+      }
+    },
+    [score, highScore, setScore, setHighScore]
+  );
 
   const addRandomBlock = useCallback(() => {
     setBoard((prevBoard) => {
@@ -81,16 +87,22 @@ function useGame() {
     addRandomBlock();
   }, [addRandomBlock]);
 
-  const moveBoard = useCallback((direction: Direction) => {
-    const { result, isMoved, scoreToAdd } = moveMapIn2048Rule(board, direction);
-    if (!isMoved) return;
+  const moveBoard = useCallback(
+    (direction: Direction) => {
+      const { result, isMoved, scoreToAdd } = moveMapIn2048Rule(
+        board,
+        direction
+      );
+      if (!isMoved) return;
 
-    addScore(scoreToAdd);
+      addScore(scoreToAdd);
 
-    setBoard(result);
-    setMoves(moves + 1);
-    addRandomBlock();
-  }, [board, moves, addScore, setBoard, setMoves, addRandomBlock]);
+      setBoard(result);
+      setMoves(moves + 1);
+      addRandomBlock();
+    },
+    [board, moves, addScore, setBoard, setMoves, addRandomBlock]
+  );
 
   return {
     moveBoard,
