@@ -26,7 +26,11 @@ const GridContainer = styled.div`
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
 `;
 
-export default function GameGrid() {
+interface GameGridProps {
+  isModalOpen?: boolean;
+}
+
+export default function GameGrid({ isModalOpen = false }: GameGridProps) {
   const context = useContext(GameContext);
 
   if (!context) {
@@ -34,7 +38,7 @@ export default function GameGrid() {
   }
 
   const { initializeGame } = useGame();
-  useGameControls();
+  useGameControls(isModalOpen);
 
   useEffect(() => {
     initializeGame();

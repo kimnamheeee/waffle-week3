@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import useGame from './useGame';
 
-export default function useGameControls() {
+export default function useGameControls(isModalOpen = false) {
   const { moveBoard } = useGame();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (isModalOpen) return;
+      
       switch (e.key) {
         case 'ArrowUp':
         case 'w':
@@ -34,5 +36,5 @@ export default function useGameControls() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [moveBoard]);
+  }, [moveBoard, isModalOpen]);
 }
