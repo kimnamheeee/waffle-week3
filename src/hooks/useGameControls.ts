@@ -7,7 +7,7 @@ export default function useGameControls(isModalOpen = false) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (isModalOpen) return;
-      
+
       switch (e.key) {
         case 'ArrowUp':
         case 'w':

@@ -92,7 +92,9 @@ export default function GamePage() {
           New Game
         </GameButton>
       </Header>
-        <GameGrid isModalOpen={modals.winGame || modals.loseGame || modals.restartGame} />
+      <GameGrid
+        isModalOpen={modals.winGame || modals.loseGame || modals.restartGame}
+      />
       {modals.restartGame && (
         <Modal
           primaryText="Start New Game"
