@@ -54,15 +54,8 @@ export default function Modal({
       <Content>
         {children}
         <ButtonContainer>
-          <GameButton
-            onClick={onPrimaryButtonClick}
-          >
-            {primaryText}
-          </GameButton>
-          <GameButton
-            onClick={onSecondaryButtonClick}
-            variant="ghost"
-          >
+          <GameButton onClick={onPrimaryButtonClick}>{primaryText}</GameButton>
+          <GameButton onClick={onSecondaryButtonClick} variant="ghost">
             {secondaryText}
           </GameButton>
         </ButtonContainer>
