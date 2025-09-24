@@ -32,6 +32,22 @@ function useGame() {
     initializeGame();
   };
 
+  const checkWin = () => {
+    return board.some((row) => row.some((cell) => cell === 128));
+  };
+
+  const checkLose = () => {
+    if (board.some((row) => row.some((cell) => cell === null))) {
+      return false;
+    }
+    const horizontal = board.some((row) => row.some((cell, index) => cell === row[index + 1]));
+    const vertical = board.some((row) => row.some((cell, index) => cell === board[index + 1][index]));
+    if (horizontal || vertical) {
+      return false;
+    }    
+    return true;
+  };
+
 
   const addScore = (scoreToAdd: number) => {
     const newScore = score + scoreToAdd;
@@ -80,6 +96,8 @@ function useGame() {
     moveBoard,
     resetGame,
     initializeGame,
+    checkWin,
+    checkLose,
   };
 }
 
