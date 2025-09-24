@@ -86,8 +86,12 @@ function useGame() {
   }, [setBoard]);
 
   const initializeGame = useCallback(() => {
-    addRandomBlock();
-  }, [addRandomBlock]);
+    const isEmpty = board.every((row) => row.every((cell) => cell === null));
+    if (isEmpty) {
+      addRandomBlock();
+      addRandomBlock();
+    }
+  }, [board, addRandomBlock]);
 
   const moveBoard = useCallback(
     (direction: Direction) => {

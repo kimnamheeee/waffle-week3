@@ -1,6 +1,7 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { type Cell, INITIAL_BOARD } from '../types/board';
+import { load, save } from './utils';
 
 interface GameContextType {
   score: number;
@@ -16,10 +17,19 @@ interface GameContextType {
 export const GameContext = createContext<GameContextType | null>(null);
 
 export const GameProvider = ({ children }: { children: React.ReactNode }) => {
-  const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(0);
-  const [board, setBoard] = useState<Cell[][]>(INITIAL_BOARD);
-  const [moves, setMoves] = useState(0);
+  const [score, setScore] = useState(() => load('score', 0));
+  const [highScore, setHighScore] = useState(() => load('highScore', 0));
+  const [board, setBoard] = useState<Cell[][]>(() => load('board', INITIAL_BOARD));
+  const [moves, setMoves] = useState(() => load('moves', 0));
+
+  useEffect(() => {save('score', score);
+  }, [score]);
+  useEffect(() => {save('highScore', highScore);
+  }, [highScore]);
+  useEffect(() => {save('board', board);
+  }, [board]);
+  useEffect(() => {save('moves', moves);
+  }, [moves]);
 
   return (
     <GameContext.Provider
