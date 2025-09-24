@@ -31,29 +31,28 @@ function useGame() {
     initializeGame();
   };
 
-  const checkWin = () => {
+  const checkWin = useCallback(() => {
     return board.some((row) => row.some((cell) => cell === 128));
-  };
+  }, [board]);
 
-  const checkLose = (): boolean => {
+  const checkLose = useCallback((): boolean => {
     const size = board.length;
-  
-    const hasEmpty = board.some(row => row.some(cell => cell === null));
+
+    const hasEmpty = board.some((row) => row.some((cell) => cell === null));
     if (hasEmpty) return false;
-  
-    const canMergeHorizontal = board.some(row =>
+
+    const canMergeHorizontal = board.some((row) =>
       row.some((cell, x) => x < size - 1 && cell === row[x + 1])
     );
     if (canMergeHorizontal) return false;
-  
+
     const canMergeVertical = board.some((row, y) =>
       row.some((cell, x) => y < size - 1 && cell === board[y + 1][x])
     );
     if (canMergeVertical) return false;
-  
+
     return true;
-  };
-  
+  }, [board]);
 
   const addScore = useCallback(
     (scoreToAdd: number) => {
