@@ -1,15 +1,13 @@
-import { useState } from 'react';
+import { GameProvider } from './store/gameStore';
+import GlobalStyle from './styles/GlobalStyle';
+import GamePage from './pages/gamePage';
 
 const App = () => {
-  const [count, setCount] = useState(0);
-
   return (
-    <div>
-      <p>Hello World!</p>
-      <button onClick={() => setCount((count) => count + 1)}>
-        Count is {count}
-      </button>
-    </div>
+    <GameProvider>
+      <GlobalStyle />
+      <GamePage />
+    </GameProvider>
   );
 };
 
