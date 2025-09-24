@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { GameContext } from '../store/gameStore';
 import { INITIAL_BOARD } from '../types/board';
 import { moveMapIn2048Rule } from '../utils/2048';
@@ -29,11 +29,9 @@ function useGame() {
     setHighScore(0);
     setMoves(0);
     setBoard(INITIAL_BOARD);
+    initializeGame();
   };
 
-  const initializeGame = () => {
-    addRandomBlock();
-  };
 
   const addScore = (scoreToAdd: number) => {
     const newScore = score + scoreToAdd;
@@ -43,7 +41,7 @@ function useGame() {
     }
   };
 
-  const addRandomBlock = () => {
+  const addRandomBlock = useCallback(() => {
     setBoard((prevBoard) => {
       const emptyCells = prevBoard
         .flatMap((row, i) =>
@@ -61,9 +59,13 @@ function useGame() {
       newBoard[x][y] = randomNumber;
       return newBoard;
     });
-  };
+  }, [setBoard]);
 
-  const moveBoard = (direction: Direction) => {
+  const initializeGame = useCallback(() => {
+    addRandomBlock();
+  }, [addRandomBlock]);
+
+  const moveBoard = useCallback((direction: Direction) => {
     const { result, isMoved, scoreToAdd } = moveMapIn2048Rule(board, direction);
     if (!isMoved) return;
 
@@ -72,7 +74,7 @@ function useGame() {
     setBoard(result);
     setMoves(moves + 1);
     addRandomBlock();
-  };
+  }, [board, moves, addScore, setBoard, setMoves, addRandomBlock]);
 
   return {
     moveBoard,
