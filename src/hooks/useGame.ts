@@ -26,7 +26,6 @@ function useGame() {
 
   const resetGame = () => {
     setScore(0);
-    setHighScore(0);
     setMoves(0);
     setBoard(INITIAL_BOARD);
     initializeGame();
@@ -36,21 +35,25 @@ function useGame() {
     return board.some((row) => row.some((cell) => cell === 128));
   };
 
-  const checkLose = () => {
-    if (board.some((row) => row.some((cell) => cell === null))) {
-      return false;
-    }
-    const horizontal = board.some((row) =>
-      row.some((cell, index) => cell === row[index + 1])
+  const checkLose = (): boolean => {
+    const size = board.length;
+  
+    const hasEmpty = board.some(row => row.some(cell => cell === null));
+    if (hasEmpty) return false;
+  
+    const canMergeHorizontal = board.some(row =>
+      row.some((cell, x) => x < size - 1 && cell === row[x + 1])
     );
-    const vertical = board.some((row) =>
-      row.some((cell, index) => cell === board[index + 1][index])
+    if (canMergeHorizontal) return false;
+  
+    const canMergeVertical = board.some((row, y) =>
+      row.some((cell, x) => y < size - 1 && cell === board[y + 1][x])
     );
-    if (horizontal || vertical) {
-      return false;
-    }
+    if (canMergeVertical) return false;
+  
     return true;
   };
+  
 
   const addScore = useCallback(
     (scoreToAdd: number) => {
