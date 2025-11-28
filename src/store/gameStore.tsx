@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { type Cell, INITIAL_BOARD } from '../types/board';
 import { load, save } from './utils';
@@ -19,16 +19,22 @@ export const GameContext = createContext<GameContextType | null>(null);
 export const GameProvider = ({ children }: { children: React.ReactNode }) => {
   const [score, setScore] = useState(() => load('score', 0));
   const [highScore, setHighScore] = useState(() => load('highScore', 0));
-  const [board, setBoard] = useState<Cell[][]>(() => load('board', INITIAL_BOARD));
+  const [board, setBoard] = useState<Cell[][]>(() =>
+    load('board', INITIAL_BOARD)
+  );
   const [moves, setMoves] = useState(() => load('moves', 0));
 
-  useEffect(() => {save('score', score);
+  useEffect(() => {
+    save('score', score);
   }, [score]);
-  useEffect(() => {save('highScore', highScore);
+  useEffect(() => {
+    save('highScore', highScore);
   }, [highScore]);
-  useEffect(() => {save('board', board);
+  useEffect(() => {
+    save('board', board);
   }, [board]);
-  useEffect(() => {save('moves', moves);
+  useEffect(() => {
+    save('moves', moves);
   }, [moves]);
 
   return (
